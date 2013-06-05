@@ -1,0 +1,67 @@
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span3">
+            <button class="btn btn-large" id="fb-login" ng-click="loginUser()" ng-show="showLogin">
+                <span><img src="../Images/facebook.png" width="32" /> Login w/ Facebook</span>
+            </button>
+            <form ng-show="loggedInUser">
+                <fieldset>
+                    <legend>Login Status: {{loginStatus.status}}</legend>
+                    <label>User Id: {{loggedInUser.id}}</label>
+                    <label>First Name: {{loggedInUser.first_name}}</label>
+                    <label>Last Name: {{loggedInUser.last_name}}</label>
+                    <label>Full Name: {{loggedInUser.name}}</label>
+                    <label>Gender: {{loggedInUser.gender}}</label>
+                    <label>Link: <a href="{{loggedInUser.link}}" target="_blank">{{loggedInUser.link}}</a></label>
+                    <label>Locale: {{loggedInUser.locale}}</label>
+                    <label>Username: {{loggedInUser.username}}</label>
+                    <label>Verified: {{loggedInUser.verified}}</label>
+                </fieldset>
+            </form>
+            <legend>Activity Log</legend>
+            <ul style="height:350px;overflow:auto">
+                <li ng-repeat="status in statuses">{{ status }}</li>
+            </ul>
+        </div>
+        <div class="span9">
+            <ul class="nav nav-pills" ng-show="friendLists && friendLists.length > 0">
+                <li ng-repeat="list in friendLists" ng-class="{true:'active', false:''}[friendType==list.name]"><a ng-click="setFriendsToShow(list.name)">{{list.name}}</a></li>
+            </ul>
+            <div style="height:640px;overflow:auto" ng-show="friends && friends.length > 0">
+                <table class="table table-striped  table-hover" style="height:550px;overflow:auto" >
+                    <thead>
+                        <th>&nbsp;</th>
+                        <th>Name</th>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="friend in friends" id="friend_{{friend.id}}" ng-click="friendSelected()">
+                            <td style="width:70px"><img src="{{friend.picture.data.url}}"/></td>
+                            <td>{{friend.name }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <button ng-show="friends && friends.length > 0" ng-disabled="{{!pagingInfo.next}}" ng-click="showMoreFriends()">Show More</button>
+            <div ng-show="selectedFriend" style="padding:15px">
+                <img src="{{selectedFriend.picture.data.url}}" class="pull-left" />
+                <form class="offset2">
+                    <fieldset>
+                        <legend>Details For: {{selectedFriend.name}}</legend>
+                        <label>User Id: {{selectedFriend.id}}</label>
+                        <label>First Name: {{selectedFriend.first_name}}</label>
+                        <label>Last Name: {{selectedFriend.last_name}}</label>
+                        <label>Full Name: {{selectedFriend.name}}</label>
+                        <label>Gender: {{selectedFriend.gender}}</label>
+                        <label>Link: <a href="{{selectedFriend.link}}" target="_blank">{{selectedFriend.link}}</a></label>
+                        <label>Locale: {{selectedFriend.locale}}</label>
+                        <label>Username: {{selectedFriend.username}}</label>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+        
+    </div>
+    <div style="padding-top:20px" ng-show="accessToken">
+        <button ng-click="showToken()">Show Token</button>
+    </div>
+</div>
